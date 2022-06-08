@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView_cmd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Command:"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/editText_scmd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/textView_brightness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Brightness:"
+        android:padding="10dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBar_brightness"
+        android:max="255"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Color:"
+        android:padding="10dp"/>
+
+    <SeekBar
+        android:id="@+id/SeekBarColorR"
+        android:max="255"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30px"
+        android:progress="127"
+        android:progressTint="#B50707" />
+
+    <SeekBar
+        android:id="@+id/SeekBarColorG"
+        android:max="255"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30px"
+        android:progress="127"
+        android:progressTint="#60AA0B" />
+
+    <SeekBar
+        android:id="@+id/SeekBarColorB"
+        android:max="255"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30px"
+        android:progress="127"
+        android:progressTint="#3F51B5" />
+
+    <EditText
+        android:id="@+id/editText_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="FF00FF" />
+
+    <TextView
+        android:id="@+id/textView_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mode:"
+        android:padding="10dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/textView_speed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Speed:" />
+
+    <SeekBar
+        android:id="@+id/seekBar_speed"
+        android:max="30000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--android:max="65535"-->
+    <Button
+        android:id="@+id/button_Apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:padding="10dp"/>
+
+</LinearLayout>

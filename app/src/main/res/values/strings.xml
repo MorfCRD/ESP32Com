@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">ESP32Com</string>
+    <string-array name="modesList">
+        <item>Static</item>
+        <item>Blink</item>
+        <item>Breath</item>
+        <item>Color Wipe</item>
+        <item>Color Wipe Inverse</item>
+        <item>Color Wipe Reverse</item>
+        <item>Color Wipe Reverse Inverse</item>
+        <item>Color Wipe Random</item>
+        <item>Random Color</item>
+        <item>Single Dynamic</item>
+        <item>Multi Dynamic</item>
+        <item>Rainbow</item>
+        <item>Rainbow Cycle</item>
+        <item>Scan</item>
+        <item>Dual Scan</item>
+        <item>Fade</item>
+        <item>Theater Chase</item>
+        <item>Theater Chase Rainbow</item>
+        <item>Running Lights</item>
+        <item>Twinkle</item>
+        <item>Twinkle Random</item>
+        <item>Twinkle Fade</item>
+        <item>Twinkle Fade Random</item>
+        <item>Sparkle</item>
+        <item>Flash Sparkle</item>
+        <item>Hyper Sparkle</item>
+        <item>Strobe</item>
+        <item>Strobe Rainbow</item>
+        <item>Multi Strobe</item>
+        <item>Blink Rainbow</item>
+        <item>Chase White</item>
+        <item>Chase Color</item>
+        <item>Chase Random</item>
+        <item>Chase Rainbow</item>
+        <item>Chase Flash</item>
+        <item>Chase Flash Random</item>
+        <item>Chase Rainbow White</item>
+        <item>Chase Blackout</item>
+        <item>Chase Blackout Rainbow</item>
+        <item>Color Sweep Random</item>
+        <item>Running Color</item>
+        <item>Running Red Blue</item>
+        <item>Running Random</item>
+        <item>Larson Scanner</item>
+        <item>Comet</item>
+        <item>Fireworks</item>
+        <item>Fireworks Random</item>
+        <item>Merry Christmas</item>
+        <item>Fire Flicker</item>
+        <item>Fire Flicker (soft)</item>
+        <item>Fire Flicker (intense)</item>
+        <item>Circus Combustus</item>
+        <item>Halloween</item>
+        <item>Bicolor Chase</item>
+        <item>Tricolor Chase</item>
+        <item>TwinkleFOX</item>
+        <item>Rain</item>
+        <item>Custom 0</item>
+        <item>Custom 1</item>
+        <item>Custom 2</item>
+        <item>Custom 3</item>
+        <item>Custom 4</item>
+        <item>Custom 5</item>
+        <item>Custom 6</item>
+        <item>Custom 7</item>
+    </string-array>
+</resources>
