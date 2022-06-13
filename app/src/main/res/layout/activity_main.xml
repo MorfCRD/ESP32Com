@@ -47,7 +47,7 @@
         android:max="255"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30px"
+        android:padding="10dp"
         android:progress="127"
         android:progressTint="#B50707" />
 
@@ -56,7 +56,7 @@
         android:max="255"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30px"
+        android:padding="10dp"
         android:progress="127"
         android:progressTint="#60AA0B" />
 
@@ -65,7 +65,7 @@
         android:max="255"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30px"
+        android:padding="10dp"
         android:progress="127"
         android:progressTint="#3F51B5" />
 
@@ -75,7 +75,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="FF00FF" />
+        android:text="FF00FF"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView_mode"
@@ -109,5 +110,15 @@
         android:layout_height="wrap_content"
         android:text="Apply"
         android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/textViewVoltage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

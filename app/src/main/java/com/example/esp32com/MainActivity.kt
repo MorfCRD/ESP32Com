@@ -6,15 +6,19 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth;
     lateinit var editText_scmd: EditText
     lateinit var textView_brightness : TextView
     lateinit var seekBar_Brightness : SeekBar
@@ -27,11 +31,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var seekBar_Speed : SeekBar
     lateinit var button_Apply: Button
     lateinit var spinner_mode : Spinner
+    lateinit var textViewVoltage: TextView
     var strip = Strip("*",20,"000000",0,1000,0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        auth = Firebase.auth
 
         editText_scmd = findViewById(R.id.editText_scmd)
         textView_brightness = findViewById(R.id.textView_brightness)
@@ -45,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         seekBar_Speed = findViewById(R.id.seekBar_speed)
         button_Apply = findViewById(R.id.button_Apply)
         textView_speed = findViewById(R.id.textView_speed)
+        textViewVoltage = findViewById(R.id.textViewVoltage)
 
         val modesArray = resources.getStringArray(R.array.modesList)
 
@@ -188,6 +196,12 @@ class MainActivity : AppCompatActivity() {
                 try {
                     val update_req = p0.child("update_req").value.toString()
                     strip.update_req = update_req.toInt()
+                } catch (exp : Exception) { showToast("update_req") }
+
+                try {
+                    val voltage = p0.child("vbat").value.toString()
+                    textViewVoltage.text = "Voltage: $voltage"
+                    //Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
                 } catch (exp : Exception) { showToast("update_req") }
             }
             override fun onCancelled(p0: DatabaseError) {
