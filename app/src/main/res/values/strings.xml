@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">ESP32Com</string>
+    <string name="applyBtn">Apply</string>
+    <string name="textviewVoltage">Voltage</string>
+    <string name="commandTitle">Command:</string>
+    <string name="defaultColor">FF00FF</string>
+    <string name="colorTitle">Color:</string>
+    <string name="brightnessTitle">Brightness:</string>
+    <string name="modeTitle">Mode:</string>
+    <string name="speedTitle">Speed:</string>
+    <string name="cmdHint">m/s/c</string>
+    <string name="onoffSwitch">OnOff</string>
     <string-array name="modesList">
         <item>Static</item>
         <item>Blink</item>

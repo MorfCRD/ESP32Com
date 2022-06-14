@@ -1,11 +1,14 @@
 package com.example.esp32com
 
+import android.graphics.Color
+import android.graphics.Color.parseColor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.esp32com.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -18,89 +21,67 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth;
-    lateinit var editText_scmd: EditText
-    lateinit var textView_brightness : TextView
-    lateinit var seekBar_Brightness : SeekBar
-    lateinit var textView_color : TextView
-    lateinit var SeekBarColorR : SeekBar
-    lateinit var SeekBarColorG : SeekBar
-    lateinit var SeekBarColorB : SeekBar
-    lateinit var editText_color: EditText
-    lateinit var textView_speed: TextView
-    lateinit var seekBar_Speed : SeekBar
-    lateinit var button_Apply: Button
-    lateinit var spinner_mode : Spinner
-    lateinit var textViewVoltage: TextView
+    private lateinit var auth: FirebaseAuth
     var strip = Strip("*",20,"000000",0,1000,0)
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+        //setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
 
-        editText_scmd = findViewById(R.id.editText_scmd)
-        textView_brightness = findViewById(R.id.textView_brightness)
-        seekBar_Brightness = findViewById(R.id.seekBar_brightness)
-        textView_color = findViewById(R.id.textView_color)
-        SeekBarColorR = findViewById(R.id.SeekBarColorR)
-        SeekBarColorG = findViewById(R.id.SeekBarColorG)
-        SeekBarColorB = findViewById(R.id.SeekBarColorB)
-        editText_color = findViewById(R.id.editText_color)
-        spinner_mode = findViewById(R.id.spinner_mode)
-        seekBar_Speed = findViewById(R.id.seekBar_speed)
-        button_Apply = findViewById(R.id.button_Apply)
-        textView_speed = findViewById(R.id.textView_speed)
-        textViewVoltage = findViewById(R.id.textViewVoltage)
-
         val modesArray = resources.getStringArray(R.array.modesList)
 
-        spinner_mode.adapter = ArrayAdapter<String>(this,
+        binding.spinnerMode.adapter = ArrayAdapter<String>(this,
             android.R.layout.simple_expandable_list_item_1,modesArray)
 
-        button_Apply.setOnClickListener{
+        binding.buttonApply.setOnClickListener{
             applyChanges()
         }
 
-        seekBar_Brightness.setOnSeekBarChangeListener(object :
+        binding.seekBarBrightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar_Brightness: SeekBar,
                                            progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar_Brightness: SeekBar) {}
             override fun onStopTrackingTouch(seekBar_Brightness: SeekBar) {
-                var sb = StringBuilder()
+                val sb = StringBuilder()
                 sb.append("Brightness: ")
                 sb.append(seekBar_Brightness.progress)
-                textView_brightness.setText(sb)
+                binding.textViewBrightness.text = sb
                 strip.brightness = seekBar_Brightness.progress
 
             }
         })
 
-        seekBar_Speed.setOnSeekBarChangeListener(object :
+        binding.seekBarSpeed.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar_Speed: SeekBar,
                 progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar_Speed: SeekBar) {}
             override fun onStopTrackingTouch(seekBar_Speed: SeekBar) {
-                var sb = StringBuilder()
+                val sb = StringBuilder()
                 sb.append("Speed: ")
                 sb.append(seekBar_Speed.progress)
-                textView_speed.setText(sb)
+                binding.textViewSpeed.text = sb
                 strip.speed = seekBar_Speed.progress
 
             }
         })
 
-        spinner_mode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinnerMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 strip.mode = position
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        editText_color.addTextChangedListener(object : TextWatcher{
+        binding.textViewColorData.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 //TODO("Not yet implemented")
             }
@@ -117,42 +98,57 @@ class MainActivity : AppCompatActivity() {
                         builder.append("0")
                 }
                 builder.append(s)
-                SeekBarColorR.progress = Integer.parseInt(builder.substring(0..1), 16)
-                SeekBarColorG.progress = Integer.parseInt(builder.substring(2..3), 16)
-                SeekBarColorB.progress = Integer.parseInt(builder.substring(4..5), 16)
+                binding.SeekBarColorR.progress = Integer.parseInt(builder.substring(0..1), 16)
+                binding.SeekBarColorG.progress = Integer.parseInt(builder.substring(2..3), 16)
+                binding.SeekBarColorB.progress = Integer.parseInt(builder.substring(4..5), 16)
             }
         })
 
-        SeekBarColorR.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.SeekBarColorR.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                editText_color.setText(colorStr.replace("#","").uppercase(Locale.getDefault()))
+                binding.textViewColorData.text = colorStr.replace("#","").uppercase(Locale.getDefault())
+                binding.textViewColorData.setBackgroundColor(parseColor("#$colorStr"))
             }
         })
-        SeekBarColorG.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.SeekBarColorG.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                editText_color.setText(colorStr.replace("#","").uppercase(Locale.getDefault()))
+                binding.textViewColorData.text = colorStr.replace("#","").uppercase(Locale.getDefault())
+                binding.textViewColorData.setBackgroundColor(parseColor("#$colorStr"))
             }
         })
-        SeekBarColorB.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.SeekBarColorB.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                editText_color.setText(colorStr.replace("#","").uppercase(Locale.getDefault()))
+                binding.textViewColorData.text = colorStr.replace("#","").uppercase(Locale.getDefault())
+                binding.textViewColorData.setBackgroundColor(parseColor("#$colorStr"))
             }
         })
-
 
         readChanges()
+
+        binding.switchOnOff.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
+                if (isChecked){
+                    val dataString = binding.textViewBrightness.text
+                    strip.brightness = 50//(dataString.split(":")[1]).trim().toInt()
+                } else {
+                    strip.brightness = 0
+                }
+                //applyChanges()
+            }
+
+        })
     }
 
     private fun showToast(msg : String){
@@ -162,35 +158,43 @@ class MainActivity : AppCompatActivity() {
     private fun readChanges() {
         val ref = FirebaseDatabase.getInstance().getReference("test")
 
-        var getData = object : ValueEventListener{
+        val getData = object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 try {
                     strip.scmd = p0.child("scmd").value.toString()
-                    editText_scmd.setText(strip.scmd)
+                    binding.editTextCmd.setText(strip.scmd)
                 } catch (exp : Exception) { showToast("scmd") }
 
                 try {
                     val brightness = p0.child("brightness").value.toString()
                     strip.brightness = brightness.toInt()
-                    seekBar_Brightness.progress = brightness.toInt()
-                } catch (exp : Exception) { showToast("brightness") }
+                    binding.seekBarBrightness.progress = brightness.toInt()
+                    val boolTmp = brightness.toInt()>0
+                    binding.textViewBrightness.text = "Brightness: $brightness"
+                    binding.switchOnOff.isChecked = boolTmp
+                } catch (exp : Exception) {
+                    showToast("Brightness")
+                }
 
                 try {
                     strip.color = p0.child("color").value.toString()
-                    if (!strip.color.isNullOrBlank())
-                        editText_color.setText(strip.color.toString().uppercase(Locale.getDefault()))
+                    if (!strip.color.isNullOrBlank()) {
+                        val color = strip.color.uppercase(Locale.getDefault())
+                        binding.textViewColorData.text = color
+                        binding.textViewColorData.setBackgroundColor(parseColor("#$color"))
+                    }
                 } catch (exp : Exception) { showToast("color") }
 
                 try {
                     val mode = p0.child("mode").value.toString()
                     strip.mode = mode.toInt()
-                    spinner_mode.setSelection(strip.mode)
+                    binding.spinnerMode.setSelection(strip.mode)
                 } catch (exp : Exception) { showToast("mode") }
 
                 try {
                     val speed = p0.child("speed").value.toString()
                     strip.speed = speed.toInt()
-                    seekBar_Speed.progress = speed.toInt()
+                    binding.seekBarSpeed.progress = speed.toInt()
                 } catch (exp : Exception) { showToast("speed") }
 
                 try {
@@ -200,9 +204,9 @@ class MainActivity : AppCompatActivity() {
 
                 try {
                     val voltage = p0.child("vbat").value.toString()
-                    textViewVoltage.text = "Voltage: $voltage"
+                    "Voltage: $voltage".also { binding.textViewVoltage.text = it }
                     //Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
-                } catch (exp : Exception) { showToast("update_req") }
+                } catch (exp : Exception) { showToast("Voltage") }
             }
             override fun onCancelled(p0: DatabaseError) {
             }
@@ -214,11 +218,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun applyChanges(){
-        strip.scmd = editText_scmd.text.toString().trim()
+        strip.scmd = binding.editTextCmd.text.toString().trim()
 
-        val color = editText_color.text.toString().trim()
-        if(editText_color.text.toString().isEmpty()){
-            editText_color.error = "Please enter CMD"
+        val color = binding.textViewColorData.text.toString().trim()
+        if(binding.textViewColorData.text.toString().isEmpty()){
+            binding.textViewColorData.error = "Please enter CMD"
         } else {
             strip.color =  color
         }
@@ -233,12 +237,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getColorString(): String {
-        var r = Integer.toHexString(((255*SeekBarColorR.progress)/SeekBarColorR.max))
-        if(r.length==1) r = "0"+r
-        var g = Integer.toHexString(((255*SeekBarColorG.progress)/SeekBarColorG.max))
-        if(g.length==1) g = "0"+g
-        var b = Integer.toHexString(((255*SeekBarColorB.progress)/SeekBarColorB.max))
-        if(b.length==1) b = "0"+b
+        var r = Integer.toHexString(((255*binding.SeekBarColorR.progress)/binding.SeekBarColorR.max))
+        if(r.length==1) r = "0$r"
+        var g = Integer.toHexString(((255*binding.SeekBarColorG.progress)/binding.SeekBarColorG.max))
+        if(g.length==1) g = "0$g"
+        var b = Integer.toHexString(((255*binding.SeekBarColorB.progress)/binding.SeekBarColorB.max))
+        if(b.length==1) b = "0$b"
         return r + g + b
     }
 

@@ -1,124 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView_cmd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Command:"
-        android:padding="10dp"/>
-
-    <EditText
-        android:id="@+id/editText_scmd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <TextView
-        android:id="@+id/textView_brightness"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Brightness:"
-        android:padding="10dp"/>
-
-    <SeekBar
-        android:id="@+id/seekBar_brightness"
-        android:max="255"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textView_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Color:"
-        android:padding="10dp"/>
-
-    <SeekBar
-        android:id="@+id/SeekBarColorR"
-        android:max="255"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:progress="127"
-        android:progressTint="#B50707" />
-
-    <SeekBar
-        android:id="@+id/SeekBarColorG"
-        android:max="255"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:progress="127"
-        android:progressTint="#60AA0B" />
-
-    <SeekBar
-        android:id="@+id/SeekBarColorB"
-        android:max="255"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:progress="127"
-        android:progressTint="#3F51B5" />
-
-    <EditText
-        android:id="@+id/editText_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="FF00FF"
-        android:autofillHints="" />
-
-    <TextView
-        android:id="@+id/textView_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mode:"
-        android:padding="10dp"/>
-
-    <Spinner
-        android:id="@+id/spinner_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"/>
-
-    <TextView
-        android:id="@+id/textView_speed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Speed:" />
-
-    <SeekBar
-        android:id="@+id/seekBar_speed"
-        android:max="30000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!--android:max="65535"-->
-    <Button
-        android:id="@+id/button_Apply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apply"
-        android:padding="10dp"/>
-
-    <TextView
-        android:id="@+id/textViewVoltage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="match_parent">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/buttonApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/applyBtn"
+            app:layout_constraintBottom_toTopOf="@+id/textViewVoltage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarSpeed" />
+
+        <TextView
+            android:id="@+id/textViewVoltage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textviewVoltage"
+            app:layout_constraintBottom_toTopOf="@+id/textView_cmd"
+            tools:layout_editor_absoluteX="-3dp" />
+
+        <TextView
+            android:id="@+id/textView_cmd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/commandTitle"
+            app:layout_constraintBottom_toTopOf="@+id/editTextCmd"
+            tools:layout_editor_absoluteX="-6dp" />
+
+        <EditText
+            android:id="@+id/editTextCmd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/cmdHint"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="3dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="30000"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSpeed"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textViewSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:padding="10dp"
+            android:text="@string/speedTitle"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerMode"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textViewMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:padding="10dp"
+            android:text="@string/modeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/SeekBarColorB"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Spinner
+            android:id="@+id/spinnerMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMode"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <SeekBar
+            android:id="@+id/SeekBarColorB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:padding="10dp"
+            android:progress="127"
+            android:progressTint="#3F51B5"
+            app:layout_constraintTop_toBottomOf="@+id/SeekBarColorG"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <SeekBar
+            android:id="@+id/SeekBarColorG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:padding="10dp"
+            android:progress="127"
+            android:progressTint="#60AA0B"
+            app:layout_constraintTop_toBottomOf="@+id/SeekBarColorR"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <SeekBar
+            android:id="@+id/SeekBarColorR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:padding="10dp"
+            android:progress="127"
+            android:progressTint="#B50707"
+            app:layout_constraintTop_toBottomOf="@+id/textViewColor"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textViewColorData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9C2727"
+            android:ems="10"
+            android:padding="10dp"
+            android:text="@string/defaultColor"
+            app:layout_constraintBottom_toTopOf="@+id/SeekBarColorR"
+            app:layout_constraintStart_toEndOf="@+id/textViewColor" />
+
+        <TextView
+            android:id="@+id/textViewColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:padding="10dp"
+            android:text="@string/colorTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarBrightness" />
+
+        <SeekBar
+            android:id="@+id/seekBarBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBrightness"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textViewBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/brightnessTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="2dp" />
+
+        <Switch
+            android:id="@+id/switchOnOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/onoffSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/textViewVoltage"
+            app:layout_constraintEnd_toStartOf="@+id/buttonApply"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarSpeed" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
