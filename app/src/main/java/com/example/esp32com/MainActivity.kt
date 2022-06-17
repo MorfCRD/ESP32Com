@@ -91,16 +91,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                val builder = StringBuilder()
-                if (s.length < 6){
-                    val cnt = 6 - s.length
-                    for (i in 1..cnt)
-                        builder.append("0")
-                }
-                builder.append(s)
-                binding.SeekBarColorR.progress = Integer.parseInt(builder.substring(0..1), 16)
-                binding.SeekBarColorG.progress = Integer.parseInt(builder.substring(2..3), 16)
-                binding.SeekBarColorB.progress = Integer.parseInt(builder.substring(4..5), 16)
+                binding.SeekBarColorR.progress = Integer.parseInt(s.substring(0..1), 16)
+                binding.SeekBarColorG.progress = Integer.parseInt(s.substring(2..3), 16)
+                binding.SeekBarColorB.progress = Integer.parseInt(s.substring(4..5), 16)
             }
         })
 
@@ -156,7 +149,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun readChanges() {
-        val ref = FirebaseDatabase.getInstance().getReference("test")
+        val ref = FirebaseDatabase.getInstance().getReference("salon")
 
         val getData = object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
@@ -178,12 +171,19 @@ class MainActivity : AppCompatActivity() {
 
                 try {
                     strip.color = p0.child("color").value.toString()
-                    if (!strip.color.isNullOrBlank()) {
-                        val color = strip.color.uppercase(Locale.getDefault())
+                    if (strip.color.isNotBlank()) {
+                        var color = strip.color.uppercase(Locale.getDefault())
+                        if (color.length < 6){
+                            val cnt = 6 - color.length
+                            for (i in 1..cnt)
+                                color = "0$color"
+                        }
                         binding.textViewColorData.text = color
                         binding.textViewColorData.setBackgroundColor(parseColor("#$color"))
                     }
-                } catch (exp : Exception) { showToast("color") }
+                } catch (exp : Exception) {
+                    showToast("color")
+                }
 
                 try {
                     val mode = p0.child("mode").value.toString()
@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity() {
 
         strip.update_req = 1
 
-        val ref = FirebaseDatabase.getInstance().getReference("test")
+        val ref = FirebaseDatabase.getInstance().getReference("salon")
 
         ref.setValue(strip).addOnCompleteListener() {
             Toast.makeText(applicationContext, "Data Applied", Toast.LENGTH_SHORT).show()
