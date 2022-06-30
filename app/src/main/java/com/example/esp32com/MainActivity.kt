@@ -1,6 +1,5 @@
 package com.example.esp32com
 
-import android.graphics.Color
 import android.graphics.Color.parseColor
 import android.os.Bundle
 import android.text.Editable
@@ -34,6 +33,19 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
+        val email = getString(R.string.email)
+        val password = getString(R.string.password)
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Toast.makeText(applicationContext, "signInWithEmail:success", Toast.LENGTH_SHORT).show()
+                    //val user = auth.currentUser
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(applicationContext, "signInWithEmail:failure", Toast.LENGTH_LONG).show()
+                }
+            }
 
         val modesArray = resources.getStringArray(R.array.modesList)
 
@@ -130,18 +142,15 @@ class MainActivity : AppCompatActivity() {
 
         readChanges()
 
-        binding.switchOnOff.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
-                if (isChecked){
-                    val dataString = binding.textViewBrightness.text
-                    strip.brightness = 50//(dataString.split(":")[1]).trim().toInt()
-                } else {
-                    strip.brightness = 0
-                }
-                //applyChanges()
+        binding.switchOnOff.setOnCheckedChangeListener { p0, isChecked ->
+            if (isChecked) {
+                //val dataString = binding.textViewBrightness.text
+                strip.brightness = 50//(dataString.split(":")[1]).trim().toInt()
+            } else {
+                strip.brightness = 0
             }
-
-        })
+            //applyChanges()
+        }
     }
 
     private fun showToast(msg : String){
@@ -163,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                     strip.brightness = brightness.toInt()
                     binding.seekBarBrightness.progress = brightness.toInt()
                     val boolTmp = brightness.toInt()>0
-                    binding.textViewBrightness.text = "Brightness: $brightness"
+                    "Brightness: $brightness".also { binding.textViewBrightness.text = it }
                     binding.switchOnOff.isChecked = boolTmp
                 } catch (exp : Exception) {
                     showToast("Brightness")
@@ -231,7 +240,7 @@ class MainActivity : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance().getReference("salon")
 
-        ref.setValue(strip).addOnCompleteListener() {
+        ref.setValue(strip).addOnCompleteListener {
             Toast.makeText(applicationContext, "Data Applied", Toast.LENGTH_SHORT).show()
         }
     }
